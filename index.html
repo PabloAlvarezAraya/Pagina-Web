@@ -1,35 +1,70 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Simple Map</title>
-    <meta name="viewport" content="initial-scale=1.0">
-    <meta charset="utf-8">
-    <style>
-      /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-      #map {
-        height: 100%;
-      }
-      /* Optional: Makes the sample page fill the window. */
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="map"></div>
-    <script>
-      var map;
-      function initMap() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
-        });
-      }
-    </script>
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>HTML5 - Geolocation</title>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U&callback=initMap"
     async defer></script>
-  </body>
+</head>
+<body>
+	<h1>Mapa Interactivo</h1>
+	<div id="mapa" style="width : 700px height: 500px;">
+		--ACÁ VA EL MAPA--
+	</div>
+	<script type="text/javascript">
+		//NAMESPACE --> google.maps.ALGO
+		var divMapa = document.getElementById('mapa');
+		navigator.geolocation.getCurrentPosition ( fn_ok, fn_mal );
+			function fn_mal(){}
+			function fn_ok( rta ){
+				var lat = rta.coords.latitude;
+				var lon = rta.coords.longitude;
+				
+				var glatLon = new google.maps.LatLng( lat, lon );
+				var objConfig = {
+					zoom : 17,
+					center: glatLon
+				}
+				var gMapa = new google.maps.Map( divMapa, objConfig );
+				var objConfigMarker = {
+					//gLatLon
+					//position: (-33.4075924, -70.5487675),
+					position: glatLon,
+					animation: google.maps.Animation.DROP,
+					map: gMapa,
+					draggable: true,
+					title: 'Usted está aca'
+				}
+				
+				var gMarker = new google.maps.Marker( objConfigMarker );
+					//gMarker.setIcon( 'icon_usuario.gif' );
+				
+				var gCoder = new google.maps.Geocoder( );
+				var objInformacion = {
+					address: 'MCI Electronics Showroom, Providencia'
+				}
+				gCoder.geocode( objInformacion, fn_coder );
+					
+				function fn_coder( datos ){
+					var coordenadas = datos[0].geometry.location; 
+					var config = {
+						map: gMapa,
+						animation: google.maps.Animation.DROP,
+						position: coordenadas,
+						title: 'Casa'
+					}
+					var gMarkerDV = new google.maps.Marker( config );
+						/*gMarkerDV.setIcon( 'icon_edificio.png' ); para ver imagen en mapa
+					var objHTML = {
+						content: '<div style="height: 150px width: 300px"><h2>Mi Casa</h2><h3>Cerrado las 24hrs</h3><p>Informate <a href="http://www.google.cl">aca</a></p></div>'
+					}	
+					var gIW = new google.maps.InfoWindow( objHTML );
+					
+					google.maps.event.addListener( gMarkerDV, 'click', function(){
+						gIW.open( gMapa, gMarkerDV );
+					} );*/
+				}
+			}
+	</script>
+</body>
 </html>
