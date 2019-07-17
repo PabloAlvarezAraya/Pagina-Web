@@ -3,34 +3,34 @@
 <head>
 	<meta charset="UTF-8">
 	<title>HTML5 - Geolocation</title>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U&callback=fn_ok"
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U&callback=fn_ok"
     async defer></script>
 </head>
 <body>
 	<h1>Mapa Interactivo</h1>
-	<div id="mapa" style="height: 500px;">
+	<div id="mapa" style="width : 700px height: 500px;">
 		--ACÁ VA EL MAPA--
 	</div>
 	<script type="text/javascript">
 		//NAMESPACE --> google.maps.ALGO
 		var divMapa = document.getElementById('mapa');
-		navigator.geolocation.getCurrentPosition( fn_ok, fn_mal );
+		navigator.geolocation.getCurrentPosition ( fn_ok, fn_mal );
 			function fn_mal(){}
 			function fn_ok( rta ){
 				var lat = rta.coords.latitude;
 				var lon = rta.coords.longitude;
 				
-				var gLatLon = new google.maps.LatLng( lat, lon );
-				
+				var glatLon = new google.maps.LatLng( lat, lon );
 				var objConfig = {
 					zoom : 17,
-					center: gLatLon
+					center: glatLon
 				}
 				var gMapa = new google.maps.Map( divMapa, objConfig );
-				
 				var objConfigMarker = {
-					position: gLatLon,
-					//animation: google.maps.Animation.DROP,
+					//gLatLon
+					//position: (-33.4075924, -70.5487675),
+					position: glatLon,
+					animation: google.maps.Animation.DROP,
 					map: gMapa,
 					draggable: true,
 					title: 'Usted está aca'
@@ -41,8 +41,9 @@
 				
 				var gCoder = new google.maps.Geocoder( );
 				var objInformacion = {
-					address: 'Gran Victoria 1849, Recoleta, Región Metropolitana'
+					address: 'MCI Electronics Showroom, Providencia'
 				}
+				//objInformation.address
 				gCoder.geocode( objInformacion, fn_coder );
 					
 				function fn_coder( datos ){
@@ -54,7 +55,7 @@
 						title: 'Casa'
 					}
 					var gMarkerDV = new google.maps.Marker( config );
-						//gMarkerDV.setIcon( 'icon_edificio.png' );
+						gMarkerDV.setIcon( 'icon_edificio.png' ); para ver imagen en mapa
 					var objHTML = {
 						content: '<div style="height: 150px width: 300px"><h2>Mi Casa</h2><h3>Cerrado las 24hrs</h3><p>Informate <a href="http://www.google.cl">aca</a></p></div>'
 					}	
@@ -64,6 +65,29 @@
 						gIW.open( gMapa, gMarkerDV );
 					} );
 				}
+				var obConfigDR ={
+					map: gMapa,
+					suppressMarkers: true 
+				}
+				var obConfigDS ={
+					origin: glatLon, // latLong - String de domicilio
+					destination: objInformacion.address,
+					travelMode: google.maps.TravelMode.DRIVING,
+				}
+				var ds = new google.maps.DirectionsService( ); // Obtener coordenadas
+				var dr = new google.maps.DirectionsRenderer( objConfigDR ); // Traduce las coordenadas a la ruta visible A-->B
+				
+				ds.route( obConfigDS, fnRutear );
+				
+				function fnRutear( resultados, status ){
+					// Mostrar la linea entre  A y B
+					if( status == 'OK'){
+						dr.setDirections( resultados );
+					}else{
+						alert( 'Error '+status );
+					}
+				}
+				
 			}
 	</script>
 </body>
