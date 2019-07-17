@@ -2,68 +2,34 @@
 <html lang="en-US">
 <head>
 	<meta charset="UTF-8">
-	<title>HTML5 - Geolocation</title>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U&callback=fn_ok"
-    async defer></script>
+	<title>Google Maps - Rutas</title>
 </head>
 <body>
-	<h1>Mapa Interactivo</h1>
-	<div id="mapa" style="width : 700px height: 500px;">
+	<div id="mapa">
 		--ACÁ VA EL MAPA--
 	</div>
 	<script type="text/javascript">
-		//NAMESPACE --> google.maps.ALGO
+	//AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U
+		//mostrar_objeto( navigator )
+		//mostrar_objeto( navigator.geolocation );
+		navigator.geolocation.getCurrentPosition( fn_ok, fn_error );
 		var divMapa = document.getElementById('mapa');
-		navigator.geolocation.getCurrentPosition ( fn_ok, fn_mal );
-			function fn_mal(){}
-			function fn_ok( rta ){
-				var lat = rta.coords.latitude;
-				var lon = rta.coords.longitude;
-				
-				var gLatLon = new google.maps.LatLng( lat, lon );
-				var objConfig = {
-					zoom : 8,
-					center: gLatLon
-				}
-				var gMapa = new google.maps.Map( divMapa, objConfig );
-				
-				/*var objConfigMarker = {
-					position: gLatLon,
-					animation: google.maps.Animation.DROP,
-					map: gMapa,
-					draggable: true,
-					title: 'Usted está aca'
-				}
-				
-				var gMarker = new google.maps.Marker( objConfigMarker );
-					gMarker.setIcon( 'icon_usuario.gif' );
-				
-				var gCoder = new google.maps.Geocoder( );
-				var objInformacion = {
-					address: 'Gran Victoria 1849, Recoleta, Región Metropolitana'
-				}
-				gCoder.geocode( objInformacion, fn_coder );
-					
-				function fn_coder( datos ){
-					var coordenadas = datos[0].geometry.location; 
-					var config = {
-						map: gMapa,
-						animation: google.maps.Animation.DROP,
-						position: coordenadas,
-						title: 'Casa'
-					}
-					var gMarkerDV = new google.maps.Marker( config );
-						gMarkerDV.setIcon( 'icon_edificio.png' ); para ver imagen en mapa
-					var objHTML = {
-						content: '<div style="height: 150px width: 300px"><h2>Mi Casa</h2><h3>Cerrado las 24hrs</h3><p>Informate <a href="http://www.google.cl">aca</a></p></div>'
-					}	
-					var gIW = new google.maps.InfoWindow( objHTML );
-					
-					google.maps.event.addListener( gMarkerDV, 'click', function(){
-						gIW.open( gMapa, gMarkerDV );
-					} );
-				}*/
+		//var divMapa = $('#mapa'); 
+		function fn_error(  ){
+			divMapa.innerHTML = 'Hubo un problema solicitando los datos.';
+		}
+		function fn_ok( respuesta ){
+			//mostrar_objeto(respuesta.coords);
+			var lat = respuesta.coords.latitude;
+			var lon = respuesta.coords.longitude;
+			divMapa.innerHTML = lat+', '+lon;
+			//divMapa.innerHTML = 'Tenemos autorización para ver su ubicación.';
+		}
+		function mostrar_objeto( obj ){
+			for( var prop in obj ){
+				document.write( prop +': '+obj[prop] + '<br />');
 			}
+		}
 	</script>
 </body>
 </html>
