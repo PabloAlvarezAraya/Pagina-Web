@@ -14,9 +14,8 @@
 	<script type="text/javascript">
 		//NAMESPACE --> google.maps.ALGO
 		var divMapa = document.getElementById('mapa');
-		navigator.geolocation.getCurrentPosition ( fn_ok, fn_mal );
+		navigator.geolocation.getCurrentPosition( fn_ok, fn_mal );
 			function fn_mal(){}
-			var rta;
 			function fn_ok( rta ){
 				var lat = rta.coords.latitude;
 				var lon = rta.coords.longitude;
