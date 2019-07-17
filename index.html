@@ -14,7 +14,7 @@
 	//AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U
 		//mostrar_objeto( navigator )
 		//mostrar_objeto( navigator.geolocation );
-		navigator.geolocation.getCurrentPosition( fn_ok, fn_error );
+		
 		var divMapa = document.getElementById('mapa');
 		//var divMapa = $('#mapa'); 
 		function fn_error(  ){
@@ -31,6 +31,7 @@
 				}
 				var gMapa = new google.maps.Map( divMapa, objConfig );
 		}
+		navigator.geolocation.getCurrentPosition( fn_ok, fn_error );
 	</script>
 </body>
 </html>
