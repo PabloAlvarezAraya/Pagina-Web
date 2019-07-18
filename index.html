@@ -1,55 +1,207 @@
-<!DOCTYPE HTML>
-<html lang="en-US">
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>HTML5 - Geolocation</title>
-	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U&callback=fn_ok" async defer></script>
+    <meta charset="UTF-8">
+    <title>Example MAPS</title>
 </head>
 <body>
-	<h1>Mapa Interactivo</h1>
-	<div id="mapa" style="height: 500px;">
-		--ACÁ VA EL MAPA--
-	</div>
-	<script type="text/javascript">
-		//NAMESPACE --> google.maps.algo
-		var divMapa = document.getElementById('mapa');
-		navigator.geolocation.getCurrentPosition ( fn_ok, fn_mal );
-			function fn_mal(){}
-			function fn_ok( rta ){
-				var lat = rta.coords.latitude;
-				var lon = rta.coords.longitude;
-				
-				var glatLon = new google.maps.LatLng( lat, lon );
-				var objConfig = {
-					//prop = valor,
-					//o_prop: valor
-					zoom : 17,
-					center: glatLon
-				}
-				var gMapa = new google.maps.Map(idMapa, objConfig);
-				var objConfigMarker = {
-					position: glatLon,
-					map: gMapa,
-					title: 'Usted está acá'
-				}
-				
-				var gMarker = new google.maps.Marker( objConfigMarker );
-				var objInformacion = {
-					address: 'Corrientes 2049,Balbanera,Buenos Aires'
-				}
-				//var gCoder = new google.maps.Geocoder();
-				gCoder.geocode( objInformacion, fn_coder );
-					
-				function fn_coder( datos ){
-					var coordenadas = datos[0].geometry.location; //obj latLong
-					var config = {
-						map: gMapa,
-						position: coordenadas,
-						title: 'Escuela DaVinci'
-					}
-					var gMarkerDV = new google.maps.Marker( config )
-				}
-			}
-	</script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8hCt7nIsQ9cqL5es5_P7WjvIHKBzx_3U&callback=fn_ok" async defer></script>
+
+<main>
+    <div id="mapa" style="width: 100%; height: 500px;"></div>
+</main>
+
+<script>
+
+    var divMapa = document.getElementById('mapa');
+    function fn_ok(rta){
+        /*var lat = rta.coords.latitude;
+         var lon = rta.coords.longitude;*/
+
+        /*var lat = 19.378506;
+         var lon = -99.176255;*/
+
+        /*var lat = 19.374396;
+         var lon = -99.178530;*/
+
+        var latLonOrigin = {
+            "lat":19.374396,
+            "lng":-99.178530
+        };
+        var latLonOrigin = {
+            "lat": -33.871921,
+            "lng": 151.206592
+        };
+
+//        var gLatLon = new google.maps.LatLng(lat, lon);
+        var objConfig = {
+            zoom: 4,
+            center: latLonOrigin
+        };
+        var gMapa = new google.maps.Map(divMapa, objConfig);
+
+
+        var configIconSchool = {
+            url: '02.png',
+            scaledSize: new google.maps.Size(33, 34),
+            origin: new google.maps.Point(0, 0),
+//            anchor: new google.maps.Point(5, 5)
+        }
+        var objConfigMarker = {
+            position: latLonOrigin,
+            map: gMapa,
+            icon: configIconSchool,
+            animation: google.maps.Animation.DROP,
+            title: "USTED ESTA AQUI"
+        };
+        var gMarker = new google.maps.Marker(objConfigMarker);
+
+        /*        var gCoder = new google.maps.Geocoder();
+         var objInformacion = {
+         address: 'Pilares 46, Benito Juárez, Col del Valle Centro'
+
+         }
+         //        gCoder.geocode(objInformacion, fn_coder);
+
+         fn_coder();
+
+         function fn_coder(datos) {
+         //            var coordenadas = datos[0].geometry.location; //ObjtLatLong
+
+         /!*console.log("------------------ COORDENADAS CONVERTIDAS ---------------------");
+         console.log(JSON.stringify(coordenadas));*!/
+         }*/
+
+
+
+        /*var latLonDestino = {
+            "lat":19.3796867,
+            "lng":-99.1742099
+        };*/
+        var latLonDestino = {
+            "lat": -33.746676,
+            "lng":  150.704527
+        };
+
+        var configIcon = {
+            url: '01.png',
+            scaledSize: new google.maps.Size(33, 48),
+            origin: new google.maps.Point(0, 0),
+//                anchor: new google.maps.Point(13, 60)
+            /*origin: new google.maps.Point(0, 0),
+             anchor: new google.maps.Point(0, 0)*/
+        }
+        var gMarkerDestino = new google.maps.Marker({
+//                position: new google.maps.LatLng(lat, lon),
+            position: latLonDestino,
+            map: gMapa,
+            icon: configIcon,
+            animation: google.maps.Animation.DROP,
+            title: "DESTINO"
+        });
+
+        var point1 = new google.maps.LatLng(-33.8975098545041, 151.09962701797485);
+        var point2 = new google.maps.LatLng(-33.8584421519279, 151.0693073272705);
+        var point3 = new google.maps.LatLng(-33.84525521656404, 151.0421848297119);
+
+
+        //   "{'lat':-33.8975098545041,'lng':151.09962701797485}"
+
+/*
+        var wps = [{
+            location: {
+                "lat": -33.8975098545041,
+                "lng": 151.09962701797485
+            }
+        }];
+        */
+
+        var wps = [{
+            location: point1
+        }, {
+            location: point2
+        },{
+            location: point3
+        }];
+
+       /* [
+            {
+                "location": {
+                    "lat": -33.8975098545041,
+                    "lng": 151.09962701797485
+                }
+            },
+            {
+                "location": {
+                    "lat": -33.8584421519279,
+                    "lng": 151.0693073272705
+                }
+            },
+            {
+                "location": {
+                    "lat": -33.84525521656404,
+                    "lng": 151.0421848297119
+                }
+            }
+        ]*/
+
+        console.log("------------wps--------------");
+        console.log(JSON.stringify(wps));
+
+        /*
+         var wps = [
+         {
+         "lat":-33.8584421519279,
+         "lng": 151.0693073272705
+         },
+         {
+         "lat":-33.87312358690301,
+         "lng": 151.99952697753906
+         },
+         {
+         "lat": -33.84525521656404,
+         "lng": 151.0421848297119
+         }
+         ];
+         */
+
+        var objConfigDR = {
+            map: gMapa,
+            suppressMarkers: false //Quitar los nuevos marcadores generados  = true
+        }
+        var objConfigDS = {
+            origin: latLonOrigin,  //acepta latitud o longitud o string del domicilio
+            destination: latLonDestino,
+            waypoints: wps,
+            optimizeWaypoints: true,
+            travelMode: google.maps.TravelMode.DRIVING
+        }
+
+        //Los dos salen de maps
+        var ds = new google.maps.DirectionsService(); //Obtiene datos, coordenadas
+        var dr = new google.maps.DirectionsRenderer(objConfigDR); //Traduce las coordenadas a la ruta visible entre 2 puntos
+
+        ds.route(objConfigDS, fnRutear);
+
+
+        function fnRutear(resultados, status) {
+            //Mostrar la linea entre A y B
+            //Si encontro una ruta
+            if(status === 'OK'){
+//                        Entonces muestralos
+                dr.setDirections(resultados);
+            }
+            else{
+                alert('ERROR: ' + status);
+            }
+
+        }
+
+    };
+    navigator.geolocation.getCurrentPosition(fn_ok, fn_mal);
+
+    function fn_mal(){}
+</script>
+
 </body>
 </html>
